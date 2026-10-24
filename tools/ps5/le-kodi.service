@@ -1,0 +1,11 @@
+[Unit]
+Description=CB1 LibreELEC Kodi (chroot)
+Conflicts=gdm.service
+After=gdm.service network-online.target
+
+[Service]
+ExecStartPre=-/bin/sh -c 'for v in /sys/class/vtconsole/vtcon*/bind; do echo 0 > $v; done'
+ExecStart=/usr/local/sbin/le-kodi
+ExecStopPost=-/bin/umount -R -l /opt/le/root
+ExecStopPost=-/bin/sh -c 'for v in /sys/class/vtconsole/vtcon*/bind; do echo 1 > $v; done'
+Restart=no
