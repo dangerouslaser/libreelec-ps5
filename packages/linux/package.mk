@@ -36,6 +36,17 @@ case "${LINUX}" in
     PKG_SOURCE_NAME="linux-${LINUX}-${PKG_VERSION}.tar.gz"
     PKG_PATCH_DIRS="default rockchip"
     ;;
+  ps5)
+    # PlayStation 5 / PS5 Pro: Linux 7.3 with the ps5-linux platform patches,
+    # CB1 Dolby Vision ported to 7.3 and PS5 DP-to-HDMI converter support.
+    # The CB1 kernel patches are already part of this tree.
+    PKG_VERSION="3becce412a2b8f643a0a3ba4da57d9d7199a0dfb" # 7.3.0
+    PKG_SHA256="bfcf9bb16221e47a265f60883ee4b24160fbbbce27dd9c81d3db7a6dd1c70f85"
+    PKG_URL="https://github.com/dangerouslaser/linux-ps5/archive/${PKG_VERSION}.tar.gz"
+    PKG_SOURCE_NAME="linux-ps5-${PKG_VERSION}.tar.gz"
+    PKG_SOURCE_DIR="linux-ps5-${PKG_VERSION}"
+    PKG_PATCH_DIRS="ps5"
+    ;;
   *)
     PKG_VERSION="7.2.6"
     PKG_SHA256="039aef84f2b0994aeda3f4fcfc3d02ec9d7a9bbb9020ea264c43f446c860f606"
@@ -178,6 +189,11 @@ pre_make_target() {
       cp -a $(get_build_dir kernel-firmware)/.copied-firmware/{amdgpu,amd-ucode,i915,radeon,e100,rtl_nic} ${PKG_BUILD}/external-firmware
 
     cp -a $(get_build_dir intel-ucode)/intel-ucode ${PKG_BUILD}/external-firmware
+
+    # PS5: patched VCN firmware that the PS5 GPU needs, built into the kernel
+    if [ "${LINUX}" = "ps5" ]; then
+      cp -a ${PROJECT_DIR}/${PROJECT}/devices/${DEVICE}/firmware/. ${PKG_BUILD}/external-firmware/
+    fi
 
     FW_LIST="$(find ${PKG_BUILD}/external-firmware \( -type f -o -type l \) \( -iname '*.bin' -o -iname '*.fw' -o -path '*/intel-ucode/*' \) | sed 's|.*external-firmware/||' | sort | xargs)"
 
