@@ -40,8 +40,8 @@ case "${LINUX}" in
     # PlayStation 5 / PS5 Pro: Linux 7.3 with the ps5-linux platform patches,
     # CB1 Dolby Vision ported to 7.3 and PS5 DP-to-HDMI converter support.
     # The CB1 kernel patches are already part of this tree.
-    PKG_VERSION="3becce412a2b8f643a0a3ba4da57d9d7199a0dfb" # 7.3.0
-    PKG_SHA256="bfcf9bb16221e47a265f60883ee4b24160fbbbce27dd9c81d3db7a6dd1c70f85"
+    PKG_VERSION="6f8475536ac7002bc72f8ab77d925ed19a7d391c" # 7.3.0
+    PKG_SHA256="4b603154fd7de238366e58c4428d00ead1800f2ab8f76eaa4972438652f0a005"
     PKG_URL="https://github.com/dangerouslaser/linux-ps5/archive/${PKG_VERSION}.tar.gz"
     PKG_SOURCE_NAME="linux-ps5-${PKG_VERSION}.tar.gz"
     PKG_SOURCE_DIR="linux-ps5-${PKG_VERSION}"
